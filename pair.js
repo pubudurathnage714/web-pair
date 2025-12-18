@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
                 if (connection === "open") {
                     try {
                         await delay(10000);
-                        const sessionAURA-MD = fs.readFileSync('./session/creds.json');
+                        const sessionAURAMD = fs.readFileSync('./session/creds.json');
 
                         const auth_path = './session/';
                         const user_jid = jidNormalizedUser(AURAMDpairWeb.user.id);
