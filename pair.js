@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
                 if (connection === "open") {
                     try {
                         await delay(10000);
-                        const sessionDanuwa = fs.readFileSync('./session/creds.json');
+                        const sessionAURA-MD = fs.readFileSync('./session/creds.json');
 
                         const auth_path = './session/';
                         const user_jid = jidNormalizedUser(AURAMDpairWeb.user.id);
@@ -74,7 +74,7 @@ router.get('/', async (req, res) => {
                         });
 
                     } catch (e) {
-                        exec('pm2 restart danuwa');
+                        exec('pm2 restart AURA-MD');
                     }
 
                     await delay(100);
@@ -86,7 +86,7 @@ router.get('/', async (req, res) => {
                 }
             });
         } catch (err) {
-            exec('pm2 restart danuwa-md');
+            exec('pm2 restart AURA-MD');
             console.log("service restarted");
             AURAMDpair();
             await removeFile('./session');
@@ -100,7 +100,7 @@ router.get('/', async (req, res) => {
 
 process.on('uncaughtException', function (err) {
     console.log('Caught exception: ' + err);
-    exec('pm2 restart danuwa');
+    exec('pm2 restart AURA-MD');
 });
 
 
