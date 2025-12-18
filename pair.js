@@ -20,10 +20,10 @@ function removeFile(FilePath) {
 
 router.get('/', async (req, res) => {
     let num = req.query.number;
-    async function AURA-MDpair() {
+    async function AURAMDpair() {
         const { state, saveCreds } = await useMultiFileAuthState(`./session`);
         try {
-            let AURA-MDpairWeb = makeWASocket({
+            let AURAMDpairWeb = makeWASocket({
                 auth: {
                     creds: state.creds,
                     keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
@@ -33,17 +33,17 @@ router.get('/', async (req, res) => {
                 browser: Browsers.macOS("Safari"),
             });
 
-            if (!AURA-MDpairWeb.authState.creds.registered) {
+            if (!AURAMDpairWeb.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                const code = await AURA-MDpairWeb.requestPairingCode(num);
+                const code = await AURAMDpairWeb.requestPairingCode(num);
                 if (!res.headersSent) {
                     await res.send({ code });
                 }
             }
 
-            AURA-MDpairWeb.ev.on('creds.update', saveCreds);
-            AURA-MDpairWeb.ev.on("connection.update", async (s) => {
+            AURAMDpairWeb.ev.on('creds.update', saveCreds);
+            AURAMDpairWeb.ev.on("connection.update", async (s) => {
                 const { connection, lastDisconnect } = s;
                 if (connection === "open") {
                     try {
@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
                         const sessionDanuwa = fs.readFileSync('./session/creds.json');
 
                         const auth_path = './session/';
-                        const user_jid = jidNormalizedUser(AURA-MDpairWeb.user.id);
+                        const user_jid = jidNormalizedUser(AURAMDpairWeb.user.id);
 
                       function randomMegaId(length = 6, numberLength = 4) {
                       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -69,7 +69,7 @@ router.get('/', async (req, res) => {
 
                         const sid = string_session;
 
-                        const dt = await AURA-MDpairWeb.sendMessage(user_jid, {
+                        const dt = await AURAMDpairWeb.sendMessage(user_jid, {
                             text: sid
                         });
 
@@ -82,20 +82,20 @@ router.get('/', async (req, res) => {
                     process.exit(0);
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode !== 401) {
                     await delay(10000);
-                    AURA-MDpair();
+                    AURAMDpair();
                 }
             });
         } catch (err) {
             exec('pm2 restart danuwa-md');
             console.log("service restarted");
-            AURA-MDpair();
+            AURAMDpair();
             await removeFile('./session');
             if (!res.headersSent) {
                 await res.send({ code: "Service Unavailable" });
             }
         }
     }
-    return await AURA-MDpair();
+    return await AURAMDpair();
 });
 
 process.on('uncaughtException', function (err) {
